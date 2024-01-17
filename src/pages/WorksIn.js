@@ -1,16 +1,27 @@
-import { Box, Table } from "@mui/material"
-import ResponsiveDrawer from "../components/Menu"
-import TableMUI from "../components/Table"
+import { useEffect, useState } from "react";
+import { Box, Table } from "@mui/material";
+import ResponsiveDrawer from "../components/Menu";
+import TableWorksIn from "../components/TableWorksIn";
 
-const worksIn= () => {
+const WorksInPage = () => {
+  const [data, setData] = useState([]);
 
-    return (
-        <>
-            <ResponsiveDrawer title={"Trabaja en"}/> 
-            <TableMUI title={"Trabaja en"}/>
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('http://127.0.0.1:8000/WorksIn');
+      const json = await response.json();
+      setData(json);
+    }
+    fetchData();
+  }, []);
 
-        </>
-    )
-}
+  return (
+    <>
+      <ResponsiveDrawer title={"Trabaja en"} />
+      <TableWorksIn title={"Surte"} data={data} />
+      {console.log(data)}
+    </>
+  );
+};
 
-export default worksIn
+export default WorksInPage;

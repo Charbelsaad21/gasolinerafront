@@ -45,17 +45,40 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-
-
-export default function TableMUI({title}) {
+export default function TableDrivers({title, data}) {
 
     const [dialogOpen, setDialogOpen] = useState(false);
+
+    const [selectedId, setSelectedId] = useState(null);
+
+    const deleteDriver = async () => {
+      try {
+        // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
+        const response = await fetch(`http://localhost:8000/drivers/delete/${selectedId}`, {
+          method: 'DELETE',
+        });
   
-    const handleOpenDialog = () => {
+        // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+        if (response.ok) {
+          console.log('Driver eliminado con éxito');
+          // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
+        } else {
+          console.error('Error al eliminar el conductor');
+        }
+      } catch (error) {
+        console.error('Error de red', error);
+      } finally {
+        handleCloseDialog();
+      }
+    };
+  
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
       setDialogOpen(true);
     };
   
     const handleCloseDialog = () => {
+      setSelectedId(null);
       setDialogOpen(false);
     };
 
@@ -78,6 +101,12 @@ export default function TableMUI({title}) {
     const handleDialogAddClose= () => {
       setDialogAddOpen(false);
     };
+
+    function createData(driver_id, driver_name) {
+      return { driver_id, driver_name };
+    }
+
+    const rows = data.map(driver => createData(driver.driver_id, driver.driver_name));
   
 
   return (
@@ -90,44 +119,38 @@ export default function TableMUI({title}) {
         </div>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
-            <TableRow  >
-              <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              <StyledTableCell align="right">Calories</StyledTableCell>
-              <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Acciones&nbsp;(g)</StyledTableCell>
-            </TableRow>
+          <TableRow>
+            <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell>Nombre</StyledTableCell>
+            <StyledTableCell align="right">Acciones</StyledTableCell>
+          </TableRow>
           </TableHead>
           <TableBody>
-            
             {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.driver_id}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.driver_id}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                <StyledTableCell align="right">{row.acciones}
-                <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
-                      <EditIcon  />
-                    </IconButton>
-                    </React.Fragment> 
+                <StyledTableCell>{row.driver_name}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {/* Acciones */}
                   <React.Fragment>
-                      <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </React.Fragment>      
+                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                      <EditIcon />
+                    </IconButton>
+                  </React.Fragment>
+                  <React.Fragment>
+                    <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row.driver_id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </React.Fragment>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
-        </Table>
+      </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDriver} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
       <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
     </>

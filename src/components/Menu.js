@@ -207,7 +207,7 @@ function ResponsiveDrawer(props) {
 
           <ListItem disablePadding>
             <Link to="/supplies" style={{ textDecoration: 'none', color: '#000', width: "100%"}}>
-              <ListItemButton selected={props.title=== "Suministros" }>
+              <ListItemButton selected={props.title=== "Suministra" }>
                   <ListItemIcon>
                     <InventoryIcon/>
                   </ListItemIcon>

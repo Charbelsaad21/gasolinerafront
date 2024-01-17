@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function DeleteDialog({ open, onClose }) {
+export default function DeleteDialog({ open, onClose, onDelete }) {
 
   const handleClose = () => {
     onClose(false);
@@ -30,10 +30,10 @@ export default function DeleteDialog({ open, onClose }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => onClose(false)} sx={{color: "#BF2626"}} >No</Button>
-          <Button onClick={() => onClose(true)} sx={{color: "#BF2626"}} autoFocus>
-            Sí
-          </Button>
+        <Button onClick={() => onClose(false)} sx={{ color: "#BF2626" }} >No</Button>
+        <Button onClick={() => { onClose(true); onDelete(); }} sx={{ color: "#BF2626" }} autoFocus>
+          Sí
+        </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
