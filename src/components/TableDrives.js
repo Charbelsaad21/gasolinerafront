@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Drives from '../pages/Drives';
+import AddDialogDrives from './AddDialogDrives';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -128,7 +129,7 @@ function createData(driver_id,plateTT) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogDrives open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

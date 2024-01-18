@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Models from '../pages/Models';
+import AddDialogModels from './AddDialogModels';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -122,7 +123,7 @@ export default function TableModels({title, data}) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogModels open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

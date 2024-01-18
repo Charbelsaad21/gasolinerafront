@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
+import AddDialogPayments from './AddDialogPayment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -139,7 +140,7 @@ function createData(payment_id,payment_date,amount,payment_type,card_number,bank
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogPayments open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

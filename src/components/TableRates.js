@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Rates from '../pages/Rates';
+import AddDialogRates from './AddDialogRates';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -118,7 +119,7 @@ export default function TableRates({title, data}) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogRates open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>
   );
   

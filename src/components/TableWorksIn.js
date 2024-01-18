@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import worksIn from '../pages/WorksIn';
+import AddDialogWorksIn from './AddDialogWorksIn';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -128,7 +129,7 @@ function createData(station_rif,emp_id) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogWorksIn open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

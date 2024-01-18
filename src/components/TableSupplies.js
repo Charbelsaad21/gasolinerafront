@@ -13,6 +13,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
+import AddDialogWorksIn from './AddDialogSupplies';
+import AddDialogSupplies from './AddDialogSupplies';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -135,7 +137,7 @@ function createData(station_rif,plate,Supplies_date,liters,driver_id,plateTT) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogSupplies open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>
   );
   

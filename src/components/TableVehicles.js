@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Vehicles from '../pages/Vehicles';
+import AddDialogVehicles from './AddDialogVehicles';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -135,7 +136,7 @@ function createData(plate, model, capacity, year_release, serial_bodywork, seria
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogVehicles open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

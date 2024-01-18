@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
+import AddDialogDrivers from './AddDialogDrivers';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -126,33 +127,33 @@ export default function TableDrivers({title, data}) {
           </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.driver_id}>
-                <StyledTableCell component="th" scope="row">
-                  {row.driver_id}
-                </StyledTableCell>
-                <StyledTableCell>{row.driver_name}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {/* Acciones */}
-                  <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
-                      <EditIcon />
-                    </IconButton>
-                  </React.Fragment>
-                  <React.Fragment>
-                    <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row.driver_id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </React.Fragment>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
+          {rows.map((row) => (
+            <StyledTableRow key={row.driver_id}>
+              <StyledTableCell component="th" scope="row">
+                {row.driver_id}
+              </StyledTableCell>
+              <StyledTableCell>{row.driver_name}</StyledTableCell>
+              <StyledTableCell align="right">
+                {/* Acciones */}
+                <React.Fragment>
+                  <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    <EditIcon />
+                  </IconButton>
+                </React.Fragment>
+                <React.Fragment>
+                  <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row.driver_id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </React.Fragment>
+              </StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
       </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDriver} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogDrivers open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

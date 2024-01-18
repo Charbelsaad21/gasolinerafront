@@ -51,7 +51,7 @@ export default function EditDialog({ open, onClose, title }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{color: "#BF2626"}}>Cancel</Button>
-          <Button type="submit" sx={{color: "#BF2626"}}>agregar</Button>
+          <Button type="submit" sx={{color: "#BF2626"}}>Editar</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

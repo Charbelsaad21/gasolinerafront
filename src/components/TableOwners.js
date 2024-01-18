@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Owners from '../pages/Owners';
 import owners from '../pages/Owners';
+import AddDialogOwners from './AddDialogOwners';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -123,7 +124,7 @@ export default function TableTankerTrucks({title, data}) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogOwners open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   

@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
+import AddDialogOwnersPhones from './AddDialogOwnersPhones';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -127,7 +128,7 @@ function createData(owner_id, phone_number_own) {
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
       <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
-      <EditDialog open={dialogAddOpen} onClose={handleDialogAddClose}  title={"Agregar "+ title}/>
+      <AddDialogOwnersPhones open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
   
