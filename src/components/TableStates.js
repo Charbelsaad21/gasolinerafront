@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import States from '../pages/States';
 import AddDialogStates from './AddDialogStates';
+import EditDialogStates from './EditDialogStates';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -40,32 +41,38 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function TableStates({title, data}) {
 
     const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
+
+    const [dialogEditOpen, setDialogEditOpen] = useState(false);
+
+    const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+    const [selectedId, setSelectedId] = useState(null)
+
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
       setDialogOpen(true);
     };
   
     const handleCloseDialog = () => {
+      setSelectedId(null);
       setDialogOpen(false);
     };
-
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
   
-    const handleDialogEditOpen = () => {
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
       setDialogEditOpen(true);
     };
   
-    const handleDialogEditClose= () => {
+    const handleDialogEditClose = () => {
+      setSelectedId(null);
       setDialogEditOpen(false);
     };
-
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
   
     const handleDialogAddOpen = () => {
       setDialogAddOpen(true);
     };
   
-    const handleDialogAddClose= () => {
+    const handleDialogAddClose = () => {
       setDialogAddOpen(false);
     };
 
@@ -101,12 +108,12 @@ export default function TableStates({title, data}) {
                 <StyledTableCell>{row.state_name}</StyledTableCell>
                 <StyledTableCell align="right">
                 <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                       <EditIcon  />
                     </IconButton>
                     </React.Fragment> 
                   <React.Fragment>
-                      <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                      <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                         <DeleteIcon />
                       </IconButton>
                     </React.Fragment>      
@@ -118,7 +125,7 @@ export default function TableStates({title, data}) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogStates open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogStates open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

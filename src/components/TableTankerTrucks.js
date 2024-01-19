@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import TankerTrucks from '../pages/TankerTrucks';
 import AddDialogTankerTrucks from './AddDialogTankerTrucks';
+import EditDialogTankerTrucks from './EditDialogTankerTrucks';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,39 +38,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
-
-
 export default function TableTankerTrucks({title, data}) {
 
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [dialogEditOpen, setDialogEditOpen] = useState(false);
+    const [dialogAddOpen, setDialogAddOpen] = useState(false);
   
-    const handleOpenDialog = () => {
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
       setDialogOpen(true);
     };
   
     const handleCloseDialog = () => {
+      setSelectedId(null);
       setDialogOpen(false);
     };
-
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
   
-    const handleDialogEditOpen = () => {
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
       setDialogEditOpen(true);
     };
   
-    const handleDialogEditClose= () => {
+    const handleDialogEditClose = () => {
+      setSelectedId(null);
       setDialogEditOpen(false);
     };
-
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
   
     const handleDialogAddOpen = () => {
       setDialogAddOpen(true);
     };
   
-    const handleDialogAddClose= () => {
+    const handleDialogAddClose = () => {
       setDialogAddOpen(false);
     };
+  
 
     function createData(plateTT , capacity_lit) {
       return {plateTT , capacity_lit};
@@ -103,12 +106,12 @@ export default function TableTankerTrucks({title, data}) {
                 <StyledTableCell>{row.capacity_lit}</StyledTableCell>
                 <StyledTableCell align="right">{row.acciones}
                 <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                       <EditIcon  />
                     </IconButton>
                     </React.Fragment> 
                   <React.Fragment>
-                      <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                      <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                         <DeleteIcon />
                       </IconButton>
                     </React.Fragment>      
@@ -120,7 +123,7 @@ export default function TableTankerTrucks({title, data}) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogTankerTrucks open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId} />
       <AddDialogTankerTrucks open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>
   );

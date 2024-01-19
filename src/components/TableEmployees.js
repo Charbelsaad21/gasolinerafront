@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import Employees from '../pages/Employees';
 import AddDialogEmployees from './AddDialogEmployees';
+import EditDialogEmployees from './EditDialogEmployees';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -42,35 +43,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableEmployees({title, data}) {
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
-      setDialogOpen(true);
-    };
-  
-    const handleCloseDialog = () => {
-      setDialogOpen(false);
-    };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  
-    const handleDialogEditOpen = () => {
-      setDialogEditOpen(true);
-    };
-  
-    const handleDialogEditClose= () => {
-      setDialogEditOpen(false);
-    };
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
 
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
-  
-    const handleDialogAddOpen = () => {
-      setDialogAddOpen(true);
-    };
-  
-    const handleDialogAddClose= () => {
-      setDialogAddOpen(false);
-    };
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+  const [selectedId, setSelectedId] = useState(null)
+
+  const handleOpenDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedId(null);
+    setDialogOpen(false);
+  };
+
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
+    setDialogEditOpen(true);
+  };
+
+  const handleDialogEditClose = () => {
+    setSelectedId(null);
+    setDialogEditOpen(false);
+  };
+
+  const handleDialogAddOpen = () => {
+    setDialogAddOpen(true);
+  };
+
+  const handleDialogAddClose = () => {
+    setDialogAddOpen(false);
+  };
 
     function createData(emp_id,first_name,last_name,adress,email) {
       return {emp_id,first_name,last_name,adress,email};
@@ -112,12 +119,12 @@ export default function TableEmployees({title, data}) {
                 <StyledTableCell>{row.email}</StyledTableCell>
                 <StyledTableCell align="right">{row.acciones}
                 <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                       <EditIcon  />
                     </IconButton>
                     </React.Fragment> 
                   <React.Fragment>
-                      <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                      <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                         <DeleteIcon />
                       </IconButton>
                     </React.Fragment>      
@@ -129,7 +136,7 @@ export default function TableEmployees({title, data}) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogEmployees open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogEmployees open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

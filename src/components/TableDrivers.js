@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import AddDialogDrivers from './AddDialogDrivers';
+import EditDialogDrivers from './EditDialogDrivers';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -85,11 +86,13 @@ export default function TableDrivers({title, data}) {
 
     const [dialogEditOpen, setDialogEditOpen] = useState(false);
   
-    const handleDialogEditOpen = () => {
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
       setDialogEditOpen(true);
     };
   
     const handleDialogEditClose= () => {
+      setSelectedId(null);
       setDialogEditOpen(false);
     };
 
@@ -136,12 +139,12 @@ export default function TableDrivers({title, data}) {
               <StyledTableCell align="right">
                 {/* Acciones */}
                 <React.Fragment>
-                  <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                  <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                     <EditIcon />
                   </IconButton>
                 </React.Fragment>
                 <React.Fragment>
-                  <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row.driver_id)}>
+                  <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                     <DeleteIcon />
                   </IconButton>
                 </React.Fragment>
@@ -152,7 +155,7 @@ export default function TableDrivers({title, data}) {
       </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDriver} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogDrivers open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogDrivers open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

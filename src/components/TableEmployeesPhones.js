@@ -109,11 +109,6 @@ function createData(emp_id,phone_number_emp) {
             <StyledTableCell>{row.phone_number_emp}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
-                <EditIcon  />
-                </IconButton>
-            </React.Fragment> 
-            <React.Fragment>
                 <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
                 <DeleteIcon />
                 </IconButton>
@@ -127,7 +122,6 @@ function createData(emp_id,phone_number_emp) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
       <AddDialogEmployeesPhones open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

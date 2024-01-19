@@ -15,6 +15,7 @@ import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import ServiceStations from '../pages/ServiceStations';
 import AddDialogServiceStations from './AddDialogServiceStations';
+import EditDialogServiceStations from './EditDialogServiceStation';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,35 +40,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableServiceStations({title, data}) {
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
-      setDialogOpen(true);
-    };
-  
-    const handleCloseDialog = () => {
-      setDialogOpen(false);
-    };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  
-    const handleDialogEditOpen = () => {
-      setDialogEditOpen(true);
-    };
-  
-    const handleDialogEditClose= () => {
-      setDialogEditOpen(false);
-    };
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
 
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
-  
-    const handleDialogAddOpen = () => {
-      setDialogAddOpen(true);
-    };
-  
-    const handleDialogAddClose= () => {
-      setDialogAddOpen(false);
-    };
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+  const [selectedId, setSelectedId] = useState(null)
+
+  const handleOpenDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedId(null);
+    setDialogOpen(false);
+  };
+
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
+    setDialogEditOpen(true);
+  };
+
+  const handleDialogEditClose = () => {
+    setSelectedId(null);
+    setDialogEditOpen(false);
+  };
+
+  const handleDialogAddOpen = () => {
+    setDialogAddOpen(true);
+  };
+
+  const handleDialogAddClose = () => {
+    setDialogAddOpen(false);
+  };
 
     function createData(station_rif, adress, amount_of_fuel, payment_type, station_name, city_id, manager_id, manager_start_date) {
       return {station_rif, adress, amount_of_fuel, payment_type, station_name, city_id, manager_id, manager_start_date};
@@ -124,12 +131,12 @@ export default function TableServiceStations({title, data}) {
             <StyledTableCell>{row.manager_start_date}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
-                <EditIcon  />
+                <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
+                  <EditIcon  />
                 </IconButton>
             </React.Fragment> 
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      
@@ -142,7 +149,7 @@ export default function TableServiceStations({title, data}) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogServiceStations open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogServiceStations open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

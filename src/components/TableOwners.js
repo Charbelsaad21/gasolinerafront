@@ -16,6 +16,7 @@ import EditDialog from './EditDialog';
 import Owners from '../pages/Owners';
 import owners from '../pages/Owners';
 import AddDialogOwners from './AddDialogOwners';
+import EditDialogOwners from './EditDialogOwners';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,35 +43,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableTankerTrucks({title, data}) {
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
-      setDialogOpen(true);
-    };
-  
-    const handleCloseDialog = () => {
-      setDialogOpen(false);
-    };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  
-    const handleDialogEditOpen = () => {
-      setDialogEditOpen(true);
-    };
-  
-    const handleDialogEditClose= () => {
-      setDialogEditOpen(false);
-    };
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
 
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
-  
-    const handleDialogAddOpen = () => {
-      setDialogAddOpen(true);
-    };
-  
-    const handleDialogAddClose= () => {
-      setDialogAddOpen(false);
-    };
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+  const [selectedId, setSelectedId] = useState(null)
+
+  const handleOpenDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedId(null);
+    setDialogOpen(false);
+  };
+
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
+    setDialogEditOpen(true);
+  };
+
+  const handleDialogEditClose = () => {
+    setSelectedId(null);
+    setDialogEditOpen(false);
+  };
+
+  const handleDialogAddOpen = () => {
+    setDialogAddOpen(true);
+  };
+
+  const handleDialogAddClose = () => {
+    setDialogAddOpen(false);
+  };
 
     function createData(owner_id,owner_name,email) {
       return {owner_id,owner_name,email};
@@ -106,12 +113,12 @@ export default function TableTankerTrucks({title, data}) {
                 <StyledTableCell>{row.email}</StyledTableCell>
                 <StyledTableCell align="right">{row.acciones}
                 <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                       <EditIcon  />
                     </IconButton>
                     </React.Fragment> 
                   <React.Fragment>
-                      <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                      <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                         <DeleteIcon />
                       </IconButton>
                     </React.Fragment>      
@@ -123,7 +130,7 @@ export default function TableTankerTrucks({title, data}) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogOwners open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogOwners open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

@@ -16,6 +16,7 @@ import EditDialog from './EditDialog';
 import Cities from '../pages/Cities';
 import axios from 'axios';
 import AddDialogCities from './AddDialogCities';
+import EditDialogCities from './EditDialogCities';
 
 const axiosInstance = axios.create({
   withCredentials: true,
@@ -69,6 +70,8 @@ export default function TableCities({ title, data }) {
     }
   };
 
+  //paso 1: copiar desde aca
+
   const handleOpenDialog = (id) => {
     setSelectedId(id);
     setDialogOpen(true);
@@ -79,11 +82,13 @@ export default function TableCities({ title, data }) {
     setDialogOpen(false);
   };
 
-  const handleDialogEditOpen = () => {
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
     setDialogEditOpen(true);
   };
 
   const handleDialogEditClose = () => {
+    setSelectedId(null);
     setDialogEditOpen(false);
   };
 
@@ -94,6 +99,8 @@ export default function TableCities({ title, data }) {
   const handleDialogAddClose = () => {
     setDialogAddOpen(false);
   };
+
+  // hasta aca
 
 
   function createData(city_id, city_name, state_id) {
@@ -130,12 +137,13 @@ export default function TableCities({ title, data }) {
                 <StyledTableCell align="right">
                   {row.acciones}
                   <React.Fragment>
-                    <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                    {/* paso 2 */}
+                    <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}> 
                       <EditIcon />
                     </IconButton>
                   </React.Fragment>
                   <React.Fragment>
-                    <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row.city_id)}>
+                    <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                       <DeleteIcon />
                     </IconButton>
                   </React.Fragment>
@@ -147,7 +155,8 @@ export default function TableCities({ title, data }) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteCities} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar " + title} />
+      {/* paso 3 */}
+      <EditDialogCities open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId} />
       <AddDialogCities open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

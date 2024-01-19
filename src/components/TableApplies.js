@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import AddDialogApplies from './AddDialogApplies';
+import EditDialogApplies from './EditDialogApplies';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -39,35 +40,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableApplies({title, data}) {
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
-      setDialogOpen(true);
-    };
-  
-    const handleCloseDialog = () => {
-      setDialogOpen(false);
-    };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  
-    const handleDialogEditOpen = () => {
-      setDialogEditOpen(true);
-    };
-  
-    const handleDialogEditClose= () => {
-      setDialogEditOpen(false);
-    };
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
 
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
-  
-    const handleDialogAddOpen = () => {
-      setDialogAddOpen(true);
-    };
-  
-    const handleDialogAddClose= () => {
-      setDialogAddOpen(false);
-    };
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+  const [selectedId, setSelectedId] = useState(null)
+
+  const handleOpenDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedId(null);
+    setDialogOpen(false);
+  };
+
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
+    setDialogEditOpen(true);
+  };
+
+  const handleDialogEditClose = () => {
+    setSelectedId(null);
+    setDialogEditOpen(false);
+  };
+
+  const handleDialogAddOpen = () => {
+    setDialogAddOpen(true);
+  };
+
+  const handleDialogAddClose = () => {
+    setDialogAddOpen(false);
+  };
 
   
 
@@ -113,12 +120,12 @@ function createData(modality_id,city_id,aplies_start_date,aplies_End_date) {
             <StyledTableCell>{row.aplies_End_date}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                <IconButton aria-label="edit" color="#000"onClick={() => handleDialogEditOpen(row)}>
                 <EditIcon  />
                 </IconButton>
             </React.Fragment> 
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      
@@ -131,7 +138,7 @@ function createData(modality_id,city_id,aplies_start_date,aplies_End_date) {
         </Table>
       </TableContainer>
       <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
-      <EditDialog open={dialogEditOpen} onClose={handleDialogEditClose} title={"Editar "+ title}/>
+      <EditDialogApplies open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogApplies open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );
