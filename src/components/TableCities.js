@@ -55,13 +55,17 @@ export default function TableCities({ title, data }) {
 
   const deleteCities = async () => {
     try {
-      // Utilizar axios en lugar de fetch
-      const response = await axiosInstance.delete(`http://localhost:8000/cities/delete/${selectedId}`);
-
-      if (response.status === 200) {
-        console.log('Ciudad eliminada con éxito');
+      console.log(selectedId.city_id)
+      // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
+      const response = await fetch(`http://localhost:8000/cities/delete/${selectedId.city_id}`, {
+        method: 'DELETE',
+      });
+      // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+      if (response.ok) {
+        console.log('Modalidad eliminada con éxito');
+        // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
       } else {
-        console.error('Error al eliminar la ciudad');
+        console.error('Error al eliminar la modalidad');
       }
     } catch (error) {
       console.error('Error de red', error);
@@ -69,8 +73,6 @@ export default function TableCities({ title, data }) {
       handleCloseDialog();
     }
   };
-
-  //paso 1: copiar desde aca
 
   const handleOpenDialog = (id) => {
     setSelectedId(id);

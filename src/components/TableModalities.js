@@ -47,6 +47,28 @@ export default function TableModalities({title, data}) {
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
   const [dialogAddOpen, setDialogAddOpen] = useState(false);
 
+  const deleteModalities = async () => {
+    try {
+      console.log(selectedId.modality_id)
+      // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
+      const response = await fetch(`http://localhost:8000/modalities/delete/${selectedId.modality_id}`, {
+        method: 'DELETE',
+      });
+      // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+      if (response.ok) {
+        console.log('Modalidad eliminada con éxito');
+        // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
+      } else {
+        console.error('Error al eliminar la modalidad');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
+  
   
   //paso 1: copiar desde aca
 
@@ -130,7 +152,7 @@ export default function TableModalities({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteModalities} />
       <EditDialogModalities open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId} />
       <AddDialogModalities open={dialogAddOpen} onClose={handleDialogAddClose}  />
     </>

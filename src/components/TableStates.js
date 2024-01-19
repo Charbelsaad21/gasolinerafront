@@ -40,6 +40,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableStates({title, data}) {
 
+  const deleteStates = async () => {
+    try {
+      // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
+      const response = await fetch(`http://localhost:8000/states/delete/${selectedId.state_id}`, {
+        method: 'DELETE',
+      });
+
+      // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+      if (response.ok) {
+        console.log('Estado eliminado con éxito');
+        // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
+      } else {
+        console.error('Error al eliminar el Estado');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
+
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -124,7 +146,7 @@ export default function TableStates({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog}  onDelete={deleteStates} />
       <EditDialogStates open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogStates open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

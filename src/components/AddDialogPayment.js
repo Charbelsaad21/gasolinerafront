@@ -15,9 +15,12 @@ export default function AddDialogPayments({ open, onClose }) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
-
+  
+    // Convertir el valor de "amount" a número
+    formJson.amount = parseFloat(formJson.amount);
+  
     try {
-    
+      console.log(JSON.stringify(formJson))
       const response = await fetch('http://localhost:8000/payments/insert', {
         method: 'POST',
         headers: {
@@ -25,10 +28,9 @@ export default function AddDialogPayments({ open, onClose }) {
         },
         body: JSON.stringify(formJson),
       });
-
+  
       if (response.ok) {
         console.log('Pago agregado con éxito');
-        
       } else {
         console.error('Error al agregar el pago');
       }
@@ -38,6 +40,7 @@ export default function AddDialogPayments({ open, onClose }) {
       handleClose();
     }
   };
+  
 
   return (
     <React.Fragment>

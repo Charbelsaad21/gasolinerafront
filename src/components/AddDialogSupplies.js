@@ -16,6 +16,9 @@ export default function AddDialogSupplies({ open, onClose }) {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
 
+    formJson.liters = parseFloat(formJson.liters);
+    console.log(JSON.stringify(formJson))
+
     try {
         
       const response = await fetch('http://localhost:8000/supplies/insert', {

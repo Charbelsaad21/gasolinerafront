@@ -40,13 +40,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableDispatched({title, data}) {
 
+  const deleteDispatched = async () => {
+    try {
+     
+    const response = await fetch(`http://localhost:8000/dispatched/delete/${selectedId.station_rif}/${selectedId.plate}/${selectedId.dispatch_date}`, {
+    method: 'DELETE',
+    });
+
+
+      
+      if (response.ok) {
+        console.log('Driver eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
+ 
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
-
-  const [dialogAddOpen, setDialogAddOpen] = useState(false);
-
-  const [selectedId, setSelectedId] = useState(null)
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleOpenDialog = (id) => {
     setSelectedId(id);
@@ -58,21 +76,25 @@ export default function TableDispatched({title, data}) {
     setDialogOpen(false);
   };
 
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+
   const handleDialogEditOpen = (id) => {
     setSelectedId(id);
     setDialogEditOpen(true);
   };
 
-  const handleDialogEditClose = () => {
+  const handleDialogEditClose= () => {
     setSelectedId(null);
     setDialogEditOpen(false);
   };
+
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
 
   const handleDialogAddOpen = () => {
     setDialogAddOpen(true);
   };
 
-  const handleDialogAddClose = () => {
+  const handleDialogAddClose= () => {
     setDialogAddOpen(false);
   };
 
@@ -135,7 +157,7 @@ export default function TableDispatched({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDispatched} />
       <EditDialogDispatched open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogDispatched open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

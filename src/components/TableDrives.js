@@ -37,38 +37,64 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-
 export default function TableDrives({title, data}) {
 
-    const [dialogOpen, setDialogOpen] = useState(false);
-  
-    const handleOpenDialog = () => {
-      setDialogOpen(true);
-    };
-  
-    const handleCloseDialog = () => {
-      setDialogOpen(false);
-    };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
-  
-    const handleDialogEditOpen = () => {
-      setDialogEditOpen(true);
-    };
-  
-    const handleDialogEditClose= () => {
-      setDialogEditOpen(false);
-    };
+  const [selectedId, setSelectedId] = useState(null);
 
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
-  
-    const handleDialogAddOpen = () => {
-      setDialogAddOpen(true);
-    };
-  
-    const handleDialogAddClose= () => {
-      setDialogAddOpen(false);
-    };
+  const deleteDrives = async () => {
+    try {
+     
+      const response = await fetch(`http://localhost:8000/drives/delete/${selectedId.driver_id}/${selectedId.plateTT}`, {
+        method: 'DELETE',
+      });
+
+      
+      if (response.ok) {
+        console.log('Driver eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
+  const handleOpenDialog = (id) => {
+    setSelectedId(id);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedId(null);
+    setDialogOpen(false);
+  };
+
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+
+  const handleDialogEditOpen = (id) => {
+    setSelectedId(id);
+    setDialogEditOpen(true);
+  };
+
+  const handleDialogEditClose= () => {
+    setSelectedId(null);
+    setDialogEditOpen(false);
+  };
+
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+
+  const handleDialogAddOpen = () => {
+    setDialogAddOpen(true);
+  };
+
+  const handleDialogAddClose= () => {
+    setDialogAddOpen(false);
+  };
 
   
 
@@ -77,10 +103,6 @@ function createData(driver_id,plateTT) {
   }
   
   const rows = data.map(Drives => createData(Drives.driver_id,Drives.plateTT));
-  
-
- 
-  
     
 
   return (
@@ -122,7 +144,7 @@ function createData(driver_id,plateTT) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDrives}/>
       <AddDialogDrives open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

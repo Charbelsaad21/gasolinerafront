@@ -37,38 +37,62 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 
+
+
 export default function TableOwnersPhones({title, data}) {
 
+  const deleteOwnerPhone = async () => {
+    try {
+      console.log(selectedId.plateTT)
+      const response = await fetch(`http://localhost:8000/owners-phones/delete/${selectedId.own_id}/${selectedId.phone_number_own}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('Camion de cisterna eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const [dialogEditOpen, setDialogEditOpen] = useState(false);
+    const [dialogAddOpen, setDialogAddOpen] = useState(false);
   
-    const handleOpenDialog = () => {
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
       setDialogOpen(true);
     };
   
     const handleCloseDialog = () => {
+      setSelectedId(null);
       setDialogOpen(false);
     };
-
-    const [dialogEditOpen, setDialogEditOpen] = useState(false);
   
-    const handleDialogEditOpen = () => {
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
       setDialogEditOpen(true);
     };
   
-    const handleDialogEditClose= () => {
+    const handleDialogEditClose = () => {
+      setSelectedId(null);
       setDialogEditOpen(false);
     };
-
-    const [dialogAddOpen, setDialogAddOpen] = useState(false);
   
     const handleDialogAddOpen = () => {
       setDialogAddOpen(true);
     };
   
-    const handleDialogAddClose= () => {
+    const handleDialogAddClose = () => {
       setDialogAddOpen(false);
     };
-
   
 
 function createData(owner_id, phone_number_own) {
@@ -121,7 +145,7 @@ function createData(owner_id, phone_number_own) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteOwnerPhone}/>
       <AddDialogOwnersPhones open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>
   );

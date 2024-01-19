@@ -39,42 +39,62 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function TableRates({title, data}) {
-
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
-  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+    const deleteRates = async () => {
+      try {
+        // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
+        const response = await fetch(`http://localhost:8000/rates/delete/${selectedId.rate_id}`, {
+          method: 'DELETE',
+        });
+  
+        // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+        if (response.ok) {
+          console.log('Driver eliminado con éxito');
+          // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
+        } else {
+          console.error('Error al eliminar el conductor');
+        }
+      } catch (error) {
+        console.error('Error de red', error);
+      } finally {
+        handleCloseDialog();
+      }
+    };
 
-  const [selectedId, setSelectedId] = useState(null)
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
+      setDialogOpen(true);
+    };
+  
+    const handleCloseDialog = () => {
+      setSelectedId(null);
+      setDialogOpen(false);
+    };
 
-  const handleOpenDialog = (id) => {
-    setSelectedId(id);
-    setDialogOpen(true);
-  };
+    const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
+      setDialogEditOpen(true);
+    };
+  
+    const handleDialogEditClose= () => {
+      setSelectedId(null);
+      setDialogEditOpen(false);
+    };
 
-  const handleCloseDialog = () => {
-    setSelectedId(null);
-    setDialogOpen(false);
-  };
-
-  const handleDialogEditOpen = (id) => {
-    setSelectedId(id);
-    setDialogEditOpen(true);
-  };
-
-  const handleDialogEditClose = () => {
-    setSelectedId(null);
-    setDialogEditOpen(false);
-  };
-
-  const handleDialogAddOpen = () => {
-    setDialogAddOpen(true);
-  };
-
-  const handleDialogAddClose = () => {
-    setDialogAddOpen(false);
-  };
+    const [dialogAddOpen, setDialogAddOpen] = useState(false);
+  
+    const handleDialogAddOpen = () => {
+      setDialogAddOpen(true);
+    };
+  
+    const handleDialogAddClose= () => {
+      setDialogAddOpen(false);
+    };
 
     function createData(rate_date,rates_value) {
       return { rate_date,rates_value };
@@ -124,7 +144,7 @@ export default function TableRates({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteRates} />
       <EditDialogRates open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogRates open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>

@@ -43,39 +43,59 @@ export default function TableModels({title, data}) {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
-  const [dialogAddOpen, setDialogAddOpen] = useState(false);
+    const deleteModels = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/models/delete/${selectedId.model_name}`, {
+          method: 'DELETE',
+        });
+  
+        
+        if (response.ok) {
+          console.log('Driver eliminado con éxito');
+          
+        } else {
+          console.error('Error al eliminar el conductor');
+        }
+      } catch (error) {
+        console.error('Error de red', error);
+      } finally {
+        handleCloseDialog();
+      }
+    };
+  
+    const handleOpenDialog = (id) => {
+      setSelectedId(id);
+      setDialogOpen(true);
+    };
+  
+    const handleCloseDialog = () => {
+      setSelectedId(null);
+      setDialogOpen(false);
+    };
 
-  const [selectedId, setSelectedId] = useState(null)
+    const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  
+    const handleDialogEditOpen = (id) => {
+      setSelectedId(id);
+      setDialogEditOpen(true);
+    };
+  
+    const handleDialogEditClose= () => {
+      setSelectedId(null);
+      setDialogEditOpen(false);
+    };
 
-  const handleOpenDialog = (id) => {
-    setSelectedId(id);
-    setDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setSelectedId(null);
-    setDialogOpen(false);
-  };
-
-  const handleDialogEditOpen = (id) => {
-    setSelectedId(id);
-    setDialogEditOpen(true);
-  };
-
-  const handleDialogEditClose = () => {
-    setSelectedId(null);
-    setDialogEditOpen(false);
-  };
-
-  const handleDialogAddOpen = () => {
-    setDialogAddOpen(true);
-  };
-
-  const handleDialogAddClose = () => {
-    setDialogAddOpen(false);
-  };
+    const [dialogAddOpen, setDialogAddOpen] = useState(false);
+  
+    const handleDialogAddOpen = () => {
+      setDialogAddOpen(true);
+    };
+  
+    const handleDialogAddClose= () => {
+      setDialogAddOpen(false);
+    };
 
 
     function createData(model_name,brand,type_vehicle) {
@@ -129,7 +149,7 @@ export default function TableModels({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteModels}/>
       <EditDialogModels open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogModels open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

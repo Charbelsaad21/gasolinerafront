@@ -39,13 +39,7 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 export default function TableDrivers({title, data}) {
 
@@ -53,17 +47,17 @@ export default function TableDrivers({title, data}) {
 
     const [selectedId, setSelectedId] = useState(null);
 
-    const deleteDriver = async () => {
+    const deleteDrivers = async () => {
       try {
-        // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
-        const response = await fetch(`http://localhost:8000/drivers/delete/${selectedId}`, {
+       
+        const response = await fetch(`http://localhost:8000/drivers/delete/${selectedId.driver_id}`, {
           method: 'DELETE',
         });
   
-        // Manejar la respuesta del servidor (puedes mostrar un mensaje de éxito, actualizar la lista, etc.)
+        
         if (response.ok) {
           console.log('Driver eliminado con éxito');
-          // Puedes recargar la lista de conductores o realizar otras acciones después de la eliminación
+          
         } else {
           console.error('Error al eliminar el conductor');
         }
@@ -154,7 +148,7 @@ export default function TableDrivers({title, data}) {
         </TableBody>
       </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDriver} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteDrivers} />
       <EditDialogDrivers open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogDrivers open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

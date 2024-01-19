@@ -40,6 +40,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableVehicles({title, data}) {
 
+  const deleteVehicles = async () => {
+    try {
+      console.log(selectedId.plateTT)
+      const response = await fetch(`http://localhost:8000/vehicles/delete/${selectedId.plate}`, {
+        method: 'DELETE',
+      });
+     
+      if (response.ok) {
+        console.log('Camion de cisterna eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -139,7 +159,7 @@ function createData(plate, model, capacity, year_release, serial_bodywork, seria
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteVehicles} />
       <EditDialogVehicles open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogVehicles open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

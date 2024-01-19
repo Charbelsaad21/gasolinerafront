@@ -42,11 +42,27 @@ export default function TableApplies({title, data}) {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
-  const [dialogAddOpen, setDialogAddOpen] = useState(false);
-
-  const [selectedId, setSelectedId] = useState(null)
+  const deleteApplies = async () => {
+    try {
+     
+      const response = await fetch(`http://localhost:8000/applies/delete/${selectedId.modality_id}/${selectedId.city_id}/${selectedId.aplies_start_date}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        console.log('Driver eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
 
   const handleOpenDialog = (id) => {
     setSelectedId(id);
@@ -58,24 +74,27 @@ export default function TableApplies({title, data}) {
     setDialogOpen(false);
   };
 
+  const [dialogEditOpen, setDialogEditOpen] = useState(false);
+
   const handleDialogEditOpen = (id) => {
     setSelectedId(id);
     setDialogEditOpen(true);
   };
 
-  const handleDialogEditClose = () => {
+  const handleDialogEditClose= () => {
     setSelectedId(null);
     setDialogEditOpen(false);
   };
+
+  const [dialogAddOpen, setDialogAddOpen] = useState(false);
 
   const handleDialogAddOpen = () => {
     setDialogAddOpen(true);
   };
 
-  const handleDialogAddClose = () => {
+  const handleDialogAddClose= () => {
     setDialogAddOpen(false);
   };
-
   
 
 function createData(modality_id,city_id,aplies_start_date,aplies_End_date) {
@@ -137,7 +156,7 @@ function createData(modality_id,city_id,aplies_start_date,aplies_End_date) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteApplies}/>
       <EditDialogApplies open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogApplies open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

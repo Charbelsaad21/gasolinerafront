@@ -43,6 +43,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableTankerTrucks({title, data}) {
 
+  const deleteOwners = async () => {
+    try {
+      
+      const response = await fetch(`http://localhost:8000/owners/delete/${selectedId.owner_id}`, {
+        method: 'DELETE',
+      });
+
+     
+      if (response.ok) {
+        console.log('Driver eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
+
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -78,6 +100,8 @@ export default function TableTankerTrucks({title, data}) {
   const handleDialogAddClose = () => {
     setDialogAddOpen(false);
   };
+
+  
 
     function createData(owner_id,owner_name,email) {
       return {owner_id,owner_name,email};
@@ -129,7 +153,7 @@ export default function TableTankerTrucks({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteOwners} />
       <EditDialogOwners open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId}/>
       <AddDialogOwners open={dialogAddOpen} onClose={handleDialogAddClose} />
     </>

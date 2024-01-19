@@ -40,6 +40,26 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableTankerTrucks({title, data}) {
 
+  const deleteTankerTrucks = async () => {
+    try {
+      console.log(selectedId.plateTT)
+      const response = await fetch(`http://localhost:8000/tanker-trucks/delete/${selectedId.plateTT}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log('Camion de cisterna eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [dialogEditOpen, setDialogEditOpen] = useState(false);
@@ -122,7 +142,7 @@ export default function TableTankerTrucks({title, data}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteTankerTrucks}/>
       <EditDialogTankerTrucks open={dialogEditOpen} onClose={handleDialogEditClose} data={selectedId} />
       <AddDialogTankerTrucks open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>
