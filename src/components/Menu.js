@@ -84,6 +84,17 @@ function ResponsiveDrawer(props) {
             </Link>   
           </ListItem>  
 
+          <ListItem disablePadding>
+            <Link to="/modalities" style={{ textDecoration: 'none', color: '#000', width: "100%"}}>
+              <ListItemButton selected={props.title=== "Modalidades" }>
+                  <ListItemIcon>
+                      <PanToolIcon/>
+                  </ListItemIcon>
+                <ListItemText primary={"Modalidades"} />
+              </ListItemButton>
+            </Link>  
+          </ListItem>
+
         <ListItem disablePadding>
             <Link to="/applies" style={{ textDecoration: 'none', color: '#000', width: "100%"}}>
               <ListItemButton selected={props.title=== "Aplica" }>
@@ -95,16 +106,6 @@ function ResponsiveDrawer(props) {
             </Link>
           </ListItem> 
 
-          <ListItem disablePadding>
-            <Link to="/modalities" style={{ textDecoration: 'none', color: '#000', width: "100%"}}>
-              <ListItemButton selected={props.title=== "Modalidades" }>
-                  <ListItemIcon>
-                      <PanToolIcon/>
-                  </ListItemIcon>
-                <ListItemText primary={"Modalidades"} />
-              </ListItemButton>
-            </Link>  
-          </ListItem>
 
           <ListItem disablePadding>
             <Link to="/owners" style={{ textDecoration: 'none', color: '#000', width: "100%"}}>
