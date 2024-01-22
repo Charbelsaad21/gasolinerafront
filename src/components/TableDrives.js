@@ -45,7 +45,7 @@ export default function TableDrives({title, data}) {
 
   const deleteDrives = async () => {
     try {
-     
+      console.log(selectedId.driver_id,selectedId.plateTT)
       const response = await fetch(`http://localhost:8000/drives/delete/${selectedId.driver_id}/${selectedId.plateTT}`, {
         method: 'DELETE',
       });
@@ -101,7 +101,6 @@ export default function TableDrives({title, data}) {
 function createData(driver_id,plateTT) {
     return {driver_id,plateTT};
   }
-  
   const rows = data.map(Drives => createData(Drives.driver_id,Drives.plateTT));
     
 
@@ -132,7 +131,7 @@ function createData(driver_id,plateTT) {
             <StyledTableCell>{row.plateTT}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      

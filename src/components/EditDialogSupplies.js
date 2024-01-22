@@ -27,6 +27,7 @@ export default function EditDialogSupplies({ open, onClose, data }) {
 
   const handleEditSupplies = async () => {
     try {
+      console.log(stationRif, suppliesDate, liters, driverId, plateTT)
       const response = await fetch('http://localhost:8000/supplies/update', {
         method: 'PUT',
         headers: {

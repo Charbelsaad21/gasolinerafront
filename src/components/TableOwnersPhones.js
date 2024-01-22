@@ -43,12 +43,13 @@ export default function TableOwnersPhones({title, data}) {
 
   const deleteOwnerPhone = async () => {
     try {
-      console.log(selectedId.plateTT)
-      const response = await fetch(`http://localhost:8000/owners-phones/delete/${selectedId.own_id}/${selectedId.phone_number_own}`, {
+      console.log(selectedId)
+      const response = await fetch(`http://localhost:8000/owners-phones/delete/${selectedId.owner_id}/${selectedId.phone_number_own}`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
+        console.log(response)
         console.log('Camion de cisterna eliminado con éxito');
         
       } else {
@@ -126,14 +127,14 @@ function createData(owner_id, phone_number_own) {
 
     {console.log(rows)}
         {rows.map((row) => (
-         <StyledTableRow key={`${row.owner_id}-${row.iphone_number_op}`}>
+         <StyledTableRow key={`${row.owner_id}-${row.phone_number_own}`}>
             <StyledTableCell component="th" scope="row">
             {row.owner_id}
             </StyledTableCell>
             <StyledTableCell>{row.phone_number_own}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      

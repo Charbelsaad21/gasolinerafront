@@ -132,7 +132,7 @@ function createData(emp_id,phone_number_emp) {
             <StyledTableCell>{row.phone_number_emp}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      

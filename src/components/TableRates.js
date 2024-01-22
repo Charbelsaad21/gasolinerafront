@@ -46,7 +46,7 @@ export default function TableRates({title, data}) {
     const deleteRates = async () => {
       try {
         // Hacer la solicitud de eliminación al servidor utilizando selectedDriverId
-        const response = await fetch(`http://localhost:8000/rates/delete/${selectedId.rate_id}`, {
+        const response = await fetch(`http://localhost:8000/rates/delete/${selectedId.rate_date}`, {
           method: 'DELETE',
         });
   

@@ -40,7 +40,7 @@ export default function TablePayments({title, data}) {
 
   const deletePayments = async () => {
     try {
-      
+      console.log(selectedId.payment_id)
       const response = await fetch(`http://localhost:8000/payments/delete/${selectedId.payment_id}`, {
         method: 'DELETE',
       });
@@ -149,12 +149,12 @@ function createData(payment_id,payment_date,amount,payment_type,card_number,bank
             <StyledTableCell>{row.plate}</StyledTableCell>
             <StyledTableCell align="right">{/* Acciones */}
             <React.Fragment>
-                <IconButton aria-label="edit" color="#000" onClick={handleDialogEditOpen}>
+                <IconButton aria-label="edit" color="#000" onClick={() => handleDialogEditOpen(row)}>
                 <EditIcon  />
                 </IconButton>
             </React.Fragment> 
             <React.Fragment>
-                <IconButton aria-label="delete" color="#000" onClick={handleOpenDialog}>
+                <IconButton aria-label="delete" color="#000" onClick={() => handleOpenDialog(row)}>
                 <DeleteIcon />
                 </IconButton>
             </React.Fragment>      

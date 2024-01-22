@@ -76,6 +76,26 @@ export default function TableSupplies({title, data}) {
   const handleDialogAddClose = () => {
     setDialogAddOpen(false);
   };
+
+  const deleteSupplies= async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/supplies/delete/${selectedId.station_rif}/${selectedId.Supplies_date}/${selectedId.plateTT}/${selectedId.driver_id}`, {
+        method: 'DELETE',
+      });
+
+      
+      if (response.ok) {
+        console.log('Driver eliminado con éxito');
+        
+      } else {
+        console.error('Error al eliminar el conductor');
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    } finally {
+      handleCloseDialog();
+    }
+  };
   
 
 function createData(station_rif,plate,Supplies_date,liters,driver_id,plateTT) {
@@ -112,7 +132,7 @@ function createData(station_rif,plate,Supplies_date,liters,driver_id,plateTT) {
 
 
         {rows.map((row) => (
-         <StyledTableRow key={`${row.station_rif}-${row.plate}-${row.Supplies_date}`}>
+         <StyledTableRow key={`${row.station_rif}-${row.plate}-${row.Supplies_date}-${row.driver_id}`}>
             <StyledTableCell component="th" scope="row">
             {row.station_rif}
             </StyledTableCell>
@@ -139,7 +159,7 @@ function createData(station_rif,plate,Supplies_date,liters,driver_id,plateTT) {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} />
+      <DeleteDialog open={dialogOpen} onClose={handleCloseDialog} onDelete={deleteSupplies} />
       <EditDialogSupplies open={dialogEditOpen} onClose={handleDialogEditClose}  data={selectedId}/>
       <AddDialogSupplies open={dialogAddOpen} onClose={handleDialogAddClose}/>
     </>
